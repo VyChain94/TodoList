@@ -1,0 +1,35 @@
+﻿@page "/todo"
+
+<PageTitle>To-Do List</PageTitle>
+    @*count of items *@
+<h1>Ivy's To-Do List (@todos.Count(todo => !todo.IsDone))</h1>
+
+<ul>
+    @*[foreach loop]*@
+    @foreach (var todo in todos)
+    {
+        @*checkbox and todo item*@
+        <li style="list-style:none;">
+            <input type="checkbox" @bind="todo.IsDone" />
+            <input @bind="todo.Title" />
+        </li>
+    }
+</ul>
+
+<input placeholder="What do you need to do?" @bind="newTodo"/>
+<button @onclick="Add">Add to list</button>
+
+@code {
+    private List<TodoItem> todos = new();
+    private string? newTodo;
+
+    private void Add()
+    {
+        @*if input field has content, add the TodoItem then clear input field *@
+        if (!string.IsNullOrWhiteSpace(newTodo))
+        {
+            todos.Add(new TodoItem { Title = newTodo });
+            newTodo = string.Empty;
+            }
+        }
+}
